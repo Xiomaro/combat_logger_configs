@@ -1,6 +1,6 @@
-from scapy.all import *
-import time
-import configparser
+from scapy.all import sniff
+from time import localtime, strftime
+from configparser import ConfigParser
 from argparse import ArgumentParser
 import os.path
 
@@ -21,7 +21,7 @@ if args.filename != None and not os.path.isfile(args.filename):
 
 
 # load config
-config_parser = configparser.ConfigParser()
+config_parser = ConfigParser()
 config_parser.read('config.ini')
 # config_parser.read('old_configs/20.07.22.ini')
 config = dict(config_parser)
@@ -96,7 +96,7 @@ def package_handler(package):
                 return
            
             # extract log information
-            timestamp = time.strftime("%I:%M:%S",time.localtime(int(package.time)))
+            timestamp = strftime("%I:%M:%S",localtime(int(package.time)))
             guild = extract_string(payload, guild_offset, name_length)
             player_one = extract_string(payload, player_one_offset, name_length)
             player_two = extract_string(payload, player_two_offset,name_length)
