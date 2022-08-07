@@ -109,6 +109,7 @@ def package_handler(package):
             else:
                 log = f"[{timestamp}] {player_one} died to {player_two} from {guild}"
 
+            print(log)
             logs.append(log)
             
             with open(args.output, "a") as file:
@@ -118,7 +119,8 @@ def package_handler(package):
             # reset ladst_payload
             last_payload = ""
         
-        
+
+print("Waiting for logs...")   
          
 if args.filename:
     # cap = rdpcap(args.filename)
