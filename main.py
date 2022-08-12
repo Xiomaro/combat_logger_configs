@@ -2,13 +2,14 @@ from scapy.all import sniff
 from time import localtime, strftime
 from configparser import ConfigParser
 from argparse import ArgumentParser
+from datetime import date
 import os.path
 
 parser = ArgumentParser()
 parser.add_argument("-f", "--file", dest="filename",
                     help="Instead of sniffing for bdo packages, it will use the given *.pcap file", metavar="FILE")
 parser.add_argument("-o", "--output",
-                    default="logs.txt",
+                    default=f"{date.today()}.log",
                     help="custom output file")
 
 args = parser.parse_args()
