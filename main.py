@@ -46,10 +46,13 @@ def dec(bytes):
 
 
 def extract_string(hex, offset, length):
+    if hex[offset:offset+2] == "00":
+        return -1
     try:
         length = min(len(hex)-offset, length)
-        if(length < 0 ): 
+        if length < 0 : 
             raise ValueError('Package too short')
+            
         return dec(bytes.fromhex(hex[offset:offset+length]))
     except ValueError as e:
         print(e)
@@ -57,12 +60,9 @@ def extract_string(hex, offset, length):
 
 
 last_payload = ""
-logs = []
-
 def package_handler(package):
     
     global last_payload   
-    global logs
     
     if "IP" not in package:
         return
@@ -110,10 +110,11 @@ def package_handler(package):
                 log = f"[{timestamp}] {player_one} died to {player_two} from {guild}"
 
             print(log)
-            logs.append(log)
-            
             with open(args.output, "a") as file:
-                file.write(log + "\n")
+                try:
+                    file.write(log + "\n")
+                except UnicodeEncodeError as error:
+                    print(error)
 
             payload = payload[len(identifier):]
             # reset ladst_payload
@@ -128,5 +129,5 @@ if args.filename:
     #     package_handler(package)
     sniff(offline=args.filename, filter="tcp", prn=package_handler, store=0)
 else:
-    sniff(filter="tcp", prn=lambda x: package_handler(x))          
+    sniff(filter="tcp", prn=lambda x: package_handler(x), store=0)          
 
