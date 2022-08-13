@@ -1,9 +1,10 @@
-from scapy.all import sniff
+from scapy.all import sniff, rdpcap
 from time import localtime, strftime
 from configparser import ConfigParser
 from argparse import ArgumentParser
 from datetime import date
 import os.path
+import os
 
 parser = ArgumentParser()
 parser.add_argument("-f", "--file", dest="filename",
@@ -125,10 +126,12 @@ def package_handler(package):
 print("Waiting for logs...")   
          
 if args.filename:
-    # cap = rdpcap(args.filename)
-    # for package in cap:
-    #     package_handler(package)
-    sniff(offline=args.filename, filter="tcp", prn=package_handler, store=0)
+    if os.name == "nt":
+        cap = rdpcap(args.filename)
+        for package in cap:
+            package_handler(package)
+    else:
+        sniff(offline=args.filename, filter="tcp", prn=package_handler, store=0)
 else:
     sniff(filter="tcp", prn=lambda x: package_handler(x), store=0)          
 
