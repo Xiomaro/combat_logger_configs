@@ -1,1 +1,1 @@
-virtualenv .venv &&  pip install scapy pyinstaller && build && copy config.ini dist
+virtualenv .venv && .venv\Scripts\activate &&  pip install scapy pyinstaller && build && copy config.ini dist
