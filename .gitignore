@@ -1,6 +1,7 @@
 /data
 .venv
 /build
+/dist
 
 *.txt
 *.json
