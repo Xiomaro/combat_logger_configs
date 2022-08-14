@@ -1,7 +1,7 @@
 # Combat Logger
 A tool for Black Desert Online to log combat messages.
 
-Visualize your captured logs with this [website](http://war-analyzer.oracle-tools.site/)
+Visualize your captured logs with this [website](http://war-analyzer.oracle-tools.site/).
 
 ## Prerequisites
 - [Npcap](https://npcap.com/#download)
@@ -37,3 +37,5 @@ Running the executable with an old config will **not yield any results**.
 -f FILE, --file FILE          instead of sniffing for bdo packages, it will use the given *.pcap file
 -o OUTPUT, --output OUTPUT    custom output file    
 ```
+## Need help?
+If you have any questions, feel free to add me on Discord: ORACLE#7672
