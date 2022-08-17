@@ -10,7 +10,9 @@ Visualize your captured logs with this [website](http://war-analyzer.oracle-tool
 
 ## Installation
 ### Bundled executable
-You can download the already bundled executable and the current working config [here](https://github.com/sch-28/combat_logger/releases).
+You can download the already bundled executable [here](https://github.com/sch-28/combat_logger/releases).
+Additionally, the current [config](https://github.com/sch-28/combat_logger/blob/main/config.ini) needs to be in the same folder as the executable.
+
 ### Building from source
 requires Python (tested on 3.10.1)
 ```
