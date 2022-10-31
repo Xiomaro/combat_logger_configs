@@ -1,3 +1,4 @@
+import time
 from scapy.all import sniff, rdpcap
 from time import localtime, strftime
 from configparser import ConfigParser
@@ -20,12 +21,15 @@ if args.filename != None and not os.path.isfile(args.filename):
     print("Invalid file")
     exit()
 
+st=os.stat('./config.ini')    
+days_since_modified = (time.time() - st.st_mtime)/60/60/24
 
+if days_since_modified > 7:
+    print("The config file is older than 7 days. It might not work anymore.")
 
 # load config
 config_parser = ConfigParser()
 config_parser.read('config.ini')
-# config_parser.read('old_configs/20.07.22.ini')
 config = dict(config_parser)
 
 # get ip addresses
