@@ -1,11 +1,12 @@
 from configparser import ConfigParser
-from datetime import date, datetime
+from datetime import datetime
 import os
 import tkinter
 import customtkinter
 from typing import TypedDict
 import urllib.request
 from config_dialog import Dialog
+from tkinter import filedialog
 
 
 class Config(TypedDict):
@@ -44,28 +45,31 @@ class App(customtkinter.CTk):
         label_1.pack(pady=(0,12), padx=10)
 
 
-        button_1 = customtkinter.CTkButton(master=frame_1, text="Start logging")
+        button_1 = customtkinter.CTkButton(master=frame_1, text="Start logging", command=self.start_logging)
         button_1.pack(pady=(0,6), padx=10)
         
-        button_2 = customtkinter.CTkButton(master=frame_1, text="Start recording")
+        button_2 = customtkinter.CTkButton(master=frame_1, text="Start recording", command=self.record)
         button_2.pack(pady=(0,6), padx=10)
         
-        button_3 = customtkinter.CTkButton(master=frame_1, text="Open file")
+        button_3 = customtkinter.CTkButton(master=frame_1, text="Open file", command=self.open_file)
         button_3.pack(pady=(0,12), padx=10)
         
-        
-        """ checkbox = customtkinter.CTkCheckBox(master=frame_1, text="Config loaded",  state="disabled",  width=20, height=20, text_color_disabled="white")
-        checkbox.select()
-        checkbox.pack(padx=20, pady=10) """
-        age_label_text = "Config Loaded" 
-        if self.logger_config["days_since_update"] < 7:
+    
+        age_label_text = "" 
+        if self.logger_config["days_since_update"] > 7:
             age_label_text = "Config is older than 7 days.\nIt might not work anymore!\nIf unsure: use the recording option."
             
         age_label = customtkinter.CTkLabel(master=frame_1, text=age_label_text)     
         age_label.pack()
 
 
-    
+    def start_logging(self):
+        os.system("start dist\main")
+    def open_file(self):
+        filename = filedialog.askopenfilename()
+        os.system("start dist\main -f " + filename)
+    def record(self):
+        os.system("start dist\main -r")
         
     def load_config(self) -> Config:
         # load config

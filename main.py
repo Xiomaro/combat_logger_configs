@@ -1,8 +1,8 @@
 import time
-from scapy.all import sniff, rdpcap
+from scapy.all import sniff, rdpcap, wrpcap
 from time import localtime, strftime
 from configparser import ConfigParser
-from argparse import ArgumentParser
+from argparse import ArgumentParser, BooleanOptionalAction
 from datetime import date
 import os.path
 import os
@@ -13,6 +13,8 @@ parser.add_argument("-f", "--file", dest="filename",
 parser.add_argument("-o", "--output",
                     default=f"{date.today()}.log",
                     help="custom output file")
+parser.add_argument("-r", "--record",
+                    help="Record all of BDO's traffic and save it to a pcap file", action= BooleanOptionalAction)
 
 args = parser.parse_args()
 
@@ -81,6 +83,9 @@ def package_handler(package):
     # chckes if the packages comes from a tcp stream
     uses_tcp =  "TCP" in package and hasattr(package["TCP"].payload, "load")
     if is_bdo_ip and uses_tcp:
+        
+        if args.record:
+            wrpcap(args.output+".pcap", package, append=True)
 
         # loads the payload as raw hex
         payload = bytes(package["TCP"].payload).hex()
@@ -127,15 +132,23 @@ def package_handler(package):
             last_payload = ""
         
 
-print("Waiting for logs...")   
          
 if args.filename:
+    print("Reading " + args.filename)
     if os.name == "nt":
+        print("Loading file into ram. This may take a while.")
         cap = rdpcap(args.filename)
+        index = 0
         for package in cap:
             package_handler(package)
+            if index % 10000 == 0:
+                print(f"{index}/{len(cap)} packages analyzed.")
+            index += 1
     else:
         sniff(offline=args.filename, filter="tcp", prn=package_handler, store=0)
+        
+    print(f"Logs saved under: {args.output}\nYou can close this window now.")
 else:
+    print("Waiting for logs...")   
     sniff(filter="tcp", prn=lambda x: package_handler(x), store=0)          
 
