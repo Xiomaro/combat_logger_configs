@@ -1,1 +1,1 @@
-pyinstaller main.py -F --icon icon/icon.ico
+pyinstaller main.spec
