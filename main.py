@@ -149,6 +149,6 @@ if args.filename:
         
     print(f"Logs saved under: {args.output}\nYou can close this window now.")
 else:
-    print("Waiting for logs...")   
+    print("Reading Network...")   
     sniff(filter="tcp", prn=lambda x: package_handler(x), store=0)          
 
