@@ -1,11 +1,5 @@
-from cgitb import text
-from datetime import datetime, timedelta
-import tkinter
 import time
-from turtle import width
 import customtkinter
-from github import Github
-from datetime import date
 
 class Dialog:
     def __init__(self,
