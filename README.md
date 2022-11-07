@@ -39,6 +39,7 @@ Running the executable with an old config will **not yield any results**.
 -h, --help                    show this help message and exit
 -f FILE, --file FILE          instead of sniffing for bdo packages, it will use the given *.pcap file
 -o OUTPUT, --output OUTPUT    custom output file    
+-r, --record, --no-record     Record all of BDO's traffic and save it to a pcap file
 ```
 ## Need help?
 If you have any questions, feel free to add me on Discord: ORACLE#7672
